@@ -62,15 +62,10 @@ namespace DBLab2.Controllers
             var allPublishers = await _dbService.GetAllPublishers();
 
             var result = from b in allBooks
-                         join a in allAuthors
-                         on b.AuthorId equals a.AuthorId
-                         join l in allLanguages
-                         on b.LanguageId equals l.LanguageId
-                         join p in allPublishers
-                         on b.PublisherId equals p.PublisherId
+                         orderby b.Author.FirstName, b.Author.LastName, b.Title, b.Isbn13
                          select b;
 
-            foreach (var b in allBooks)
+            foreach (var b in result)
             {
                 Console.WriteLine(
                     $"==={b.Title}===" +
